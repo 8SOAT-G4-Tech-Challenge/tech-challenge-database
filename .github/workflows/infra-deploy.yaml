@@ -13,20 +13,20 @@ jobs:
   run-terraform:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
-    working-directory: ./iac
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
+      - name: Configure AWS Credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]
           aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          role-to-assume: 'arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole'
+          aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}
+          region=us-east-1" > ~/.aws/credentials
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -34,24 +34,29 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ./iac
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        working-directory: ./iac
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
+        working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve
+        working-directory: ./iac
 
       - name: Tag successful CI run
         run: echo "CI finished successfully" > ci_finished.txt
