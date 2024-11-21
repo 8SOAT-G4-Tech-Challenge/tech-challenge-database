@@ -3,7 +3,7 @@ name: CI - AWS RDS
 on:
   push:
     branches:
-      - main
+      - develop
 
 permissions:
   id-token: write
@@ -13,7 +13,6 @@ jobs:
   run-terraform:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
-    working-directory: ./iac
 
     steps:
       - name: Checkout
