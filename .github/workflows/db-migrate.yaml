@@ -2,8 +2,10 @@ name: Database Migrations
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch: # Permite execução manual
+    branches:
+      - main
+    paths:
+      - ci_finished.txt
 
 jobs:
   migrate:
