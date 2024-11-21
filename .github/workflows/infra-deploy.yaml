@@ -13,30 +13,19 @@ jobs:
   run-terraform:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
+    environment: Development
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y zip unzip
-
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
-
+      
       - name: Configure AWS Credentials
         run: |
           mkdir -p ~/.aws
-          echo "[default]
-          aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}
-          region=us-east-1" > ~/.aws/credentials
+          echo "[lab-academy]
+          aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
+          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -54,26 +43,26 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate
         working-directory: ./iac
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var="db_postgres_username=${{ secrets.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ secrets.DB_NAME }}"
+        run: export AWS_PROFILE=lab-academy && terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
         working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -var="db_postgres_username=${{ secrets.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ secrets.DB_NAME }}"
+        run: export AWS_PROFILE=lab-academy && terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
         working-directory: ./iac
 
       - name: Tag successful CI run
         run: echo "CI finished successfully" > ci_finished.txt
       - name: Commit and push tag
         run: |
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git config --global user.name "${{ secrets.GIT_YOUR_NAME }}"
+          git config --global user.email "${{ vars.GIT_EMAIL }}"
+          git config --global user.name "${{ vars.GIT_YOUR_NAME }}"
           git add ci_finished.txt
           git commit -m "CI finished successfully"
           git push origin main
