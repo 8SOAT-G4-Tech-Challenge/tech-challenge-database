@@ -8,5 +8,6 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  profile = "lab-academy" # Profile name in the credentials file
+  region  = "us-east-1"   # Region to deploy the resources
 }
