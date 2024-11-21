@@ -3,7 +3,7 @@ name: CI - AWS RDS
 on:
   push:
     branches:
-      - develop
+      - main
 
 permissions:
   id-token: write
@@ -34,24 +34,29 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ./iac
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        working-directory: ./iac
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
+        working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve
+        working-directory: ./iac
 
       - name: Tag successful CI run
         run: echo "CI finished successfully" > ci_finished.txt
