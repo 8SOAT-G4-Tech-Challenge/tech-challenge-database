@@ -1,16 +1,15 @@
-resource "aws_security_group" "rds_sg" {
-  name        = "rds-security-group"
-  description = "Security group for RDS PostgreSQL"
-  
-  # Regra de entrada para PostgreSQL
+resource "aws_security_group" "postgres" {
+  name        = "postgres_public_access"
+  description = "Allow postgres inbound traffic"
+
   ingress {
+    description = "Postgres from anywhere"
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16", "193.186.4.241/32"]  # Altere para seus IPs permitidos
+    cidr_blocks = ["0.0.0.0/0"]
   }
-  
-  # Regra de saída
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -32,6 +31,8 @@ resource "aws_db_instance" "postgres" {
   identifier = var.identifier
   parameter_group_name = aws_db_parameter_group.postgres_params.name
   skip_final_snapshot = var.skip_final_snapshot
+  publicly_accessible    = true
+	vpc_security_group_ids = [aws_security_group.postgres.id]
 }
 
 resource "aws_db_parameter_group" "postgres_params" {
