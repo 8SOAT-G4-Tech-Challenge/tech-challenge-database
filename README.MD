@@ -46,7 +46,7 @@ db_postgres_database = "TechChallengeDatabase"
 temos um recurso AWS S3 provisionado para armazenamento no nosso terraform.state
 no momento, portanto, devemos acessar o arquivo `./iac/providers.tf` e comentar as
 seguintes linhas de **08** a **13**:
-```
+```javascript
   backend "s3" {
     bucket  = "tech-challenge-database-bucket-state-tf"
     region  = "us-east-1"
@@ -74,7 +74,7 @@ não mais em sua máquina local.
 
 ### **Destruindo recursos**
 - **1ª. Opção**: Destruindo todos os recursos, com exceção do estado do terraform:
-```
+```sh
 terraform destroy \          
   -target=module.rds \
   -target=module.secrets \
@@ -117,7 +117,7 @@ terraform destroy
 **Environment secrets**: `DB_PASSWORD`, senha do banco de dados, conforme arquivo `terraform.tfvars`
 
 **Environment variables**:
-```
+```sh
 AWS_ACCESS_KEY_ID: valor disponível na conta da AWS Academy
 AWS_SECRET_ACCESS_KEY: valor disponível na conta da AWS Academy
 AWS_SESSION_TOKEN: valor disponível na conta da AWS Academy
