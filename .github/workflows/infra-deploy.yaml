@@ -1,68 +1,98 @@
-name: CI - AWS RDS
+# name: CI - AWS RDS
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: write
 
-jobs:
-  run-terraform:
-    name: 'Run Terraform'
-    runs-on: ubuntu-latest
-    environment: development
+# jobs:
+#   infrastructure:
+#     name: 'Run Terraform'
+#     runs-on: ubuntu-latest
+#     environment: development
+#     outputs:
+#       infrastructure_ready: ${{ steps.tf_apply.outputs.success }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "[lab-academy]
-          aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
+#       - name: Configure AWS Credentials
+#         run: |
+#           mkdir -p ~/.aws
+#           echo "[lab-academy]
+#           aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
+#           aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
+#           aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+#       - name: Setup Terraform
+#         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        working-directory: ./iac
-        continue-on-error: true
+#       - name: Terraform fmt
+#         id: tf_fmt
+#         run: terraform fmt -check
+#         working-directory: ./iac
+#         continue-on-error: true
 
-      - name: Terraform Init
-        id: init
-        run: export AWS_PROFILE=lab-academy && terraform init
-        working-directory: ./iac
+#       - name: Terraform Init
+#         id: tf_init
+#         run: export AWS_PROFILE=lab-academy && terraform init
+#         working-directory: ./iac
 
-      - name: Terraform Validate
-        id: validate
-        run: export AWS_PROFILE=lab-academy && terraform validate
-        working-directory: ./iac
+#       - name: Terraform Validate
+#         id: tf_validate
+#         run: export AWS_PROFILE=lab-academy && terraform validate
+#         working-directory: ./iac
 
-      - name: Terraform Plan
-        id: plan
-        run: export AWS_PROFILE=lab-academy && terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
-        working-directory: ./iac
-        continue-on-error: true
+#       - name: Terraform Plan
+#         id: tf_plan
+#         run: export AWS_PROFILE=lab-academy && terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+#         working-directory: ./iac
+#         continue-on-error: true
 
-      - name: Terraform Apply
-        id: apply
-        run: export AWS_PROFILE=lab-academy && terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
-        working-directory: ./iac
+#       - name: Terraform Apply
+#         id: tf_apply
+#         run: export AWS_PROFILE=lab-academy && terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+#         working-directory: ./iac
 
-      - name: Tag successful CI run
-        run: echo "CI finished successfully" > ci_finished.txt
-      - name: Commit and push tag
-        run: |
-          git config --global user.email "${{ vars.GIT_EMAIL }}"
-          git config --global user.name "${{ vars.GIT_YOUR_NAME }}"
-          git add ci_finished.txt
-          git commit -m "CI finished successfully"
-          git push origin main
+#   migrations:
+#     name: 'Run Migrations'
+#     runs-on: ubuntu-latest
+#     environment: development
+#     needs: [infrastructure]
+#     if: needs.infrastructure.outputs.infrastructure_ready == 'true'
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Configure AWS Credentials
+#         run: |
+#           mkdir -p ~/.aws
+#           echo "[lab-academy]
+#           aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
+#           aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
+#           aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
+      
+#       - name: Get RDS Endpoint from SSM
+#         id: get-endpoint
+#         run: |
+#           echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text)" >> $GITHUB_ENV
+
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '18'
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Run migrations
+#         env:
+#           DATABASE_URL: "${{ env.AWS_RDS_URI }}"
+#         run: npx prisma migrate deploy
