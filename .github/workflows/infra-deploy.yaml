@@ -13,12 +13,12 @@ jobs:
   run-terraform:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
-    environment: Development
+    environment: development
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Configure AWS Credentials
         run: |
           mkdir -p ~/.aws
@@ -38,12 +38,12 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: export AWS_PROFILE=lab-academy && terraform init
         working-directory: ./iac
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate
+        run: export AWS_PROFILE=lab-academy && terraform validate
         working-directory: ./iac
 
       - name: Terraform Plan
