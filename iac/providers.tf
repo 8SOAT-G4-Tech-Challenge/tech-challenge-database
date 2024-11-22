@@ -5,6 +5,12 @@ terraform {
       version = "~> 5.0"
     }
   }
+	backend "s3" {
+    bucket  = "tech-challenge-database-bucket-state-tf"
+    region  = "us-east-1"
+    key     = "terraform.tfstate"
+    encrypt = true
+  }
 }
 
 provider "aws" {
