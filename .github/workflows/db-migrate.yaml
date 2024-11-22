@@ -11,7 +11,7 @@ jobs:
   migrate:
     name: 'Run Migrations'
     runs-on: ubuntu-latest
-    environment: Development
+    environment: development
     needs: [run-terraform]
 
     steps:
