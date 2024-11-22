@@ -9,17 +9,28 @@ on:
 
 jobs:
   migrate:
+    name: 'Run Migrations'
     runs-on: ubuntu-latest
-
-    env:
-      DB_HOST: ${{ secrets.DB_HOST }} # Endpoint do RDS
-      DB_PORT: 5432
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    environment: Development
+    needs: [run-terraform]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[lab-academy]
+          aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
+          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
+      
+      - name: Get RDS Endpoint from SSM
+        id: get-endpoint
+        run: |
+          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text)" >> $GITHUB_ENV
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -30,4 +41,6 @@ jobs:
         run: npm install
 
       - name: Run migrations
+        env:
+          DATABASE_URL: "${{ env.AWS_RDS_URI }}"
         run: npx prisma migrate deploy
