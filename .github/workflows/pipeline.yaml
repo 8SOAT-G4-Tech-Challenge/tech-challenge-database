@@ -73,13 +73,12 @@ jobs:
           echo "[lab-academy]
           aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}
-          region=us-east-1" > ~/.aws/credentials
+          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
       
       - name: Get RDS Endpoint from SSM
         id: get-endpoint
         run: |
-          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
+          echo "AWS_RDS_URI=$(export AWS_PROFILE=lab-academy && aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
