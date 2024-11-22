@@ -79,7 +79,7 @@ jobs:
       - name: Get RDS Endpoint from SSM
         id: get-endpoint
         run: |
-          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text)" >> $GITHUB_ENV
+          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
