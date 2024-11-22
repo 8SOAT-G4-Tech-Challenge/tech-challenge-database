@@ -14,8 +14,6 @@ jobs:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
     environment: development
-    outputs:
-      infrastructure_ready: ${{ steps.tf_apply.outputs.success }}
 
     steps:
       - name: Checkout
@@ -63,8 +61,7 @@ jobs:
     name: 'Run Migrations'
     runs-on: ubuntu-latest
     environment: development
-    needs: [infrastructure]
-    if: needs.infrastructure.outputs.infrastructure_ready == 'true'
+    needs: infrastructure
 
     steps:
       - name: Checkout
@@ -82,7 +79,6 @@ jobs:
         id: get-endpoint
         run: |
           echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text)" >> $GITHUB_ENV
-
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
