@@ -13,6 +13,8 @@ module "rds" {
 
   depends_on = [module.network]
 
+  main_vpc_id          = module.network.main_vpc_id
+  database_subnet_ids  = module.network.database_subnet_id
   db_postgres_username = var.db_postgres_username
   db_postgres_password = var.db_postgres_password
   db_postgres_database = var.db_postgres_database
@@ -23,11 +25,12 @@ module "elastic-cache" {
 
   depends_on = [module.network]
 
+  main_vpc_id         = module.network.main_vpc_id
   database_subnet_ids = module.network.database_subnet_id
-	elastic_cache_vars = {
-		environment = var.environment
-		aws_region = var.aws_region
-	}
+  elastic_cache_vars = {
+    environment = var.environment
+    aws_region  = var.aws_region
+  }
 }
 
 module "secrets" {

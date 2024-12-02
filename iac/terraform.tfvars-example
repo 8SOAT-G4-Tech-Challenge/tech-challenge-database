@@ -2,6 +2,6 @@ aws_account_id				= "000000000000" # ID da conta AWS Lab Academy - 12 digítos a
 aws_region 						= "us-east-1"
 project_name        	= "tech-challenge-gateway"
 environment         	= "dev" # ou "prod", "staging"
-db_postgres_database	= "tech_challenge-postgres"
+db_postgres_database	= "TechChallengeDatabase"
 db_postgres_username 	= "postgres"
 db_postgres_password 	= "Senha!123456"

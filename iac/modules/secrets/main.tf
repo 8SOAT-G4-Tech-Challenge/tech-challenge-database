@@ -15,5 +15,7 @@ resource "aws_secretsmanager_secret" "redis_url" {
 
 resource "aws_secretsmanager_secret_version" "redis_url" {
 	secret_id     = aws_secretsmanager_secret.redis_url.id
-	secret_string = "redis://${var.aws_elastic_cache_endpoint}"
+	secret_string = coalesce("redis://${var.aws_elastic_cache_endpoint}", "")
+
+	depends_on = [aws_secretsmanager_secret.redis_url]
 }

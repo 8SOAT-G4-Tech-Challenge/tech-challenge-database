@@ -11,7 +11,12 @@ variable "allowed_cidr_blocks" {
 
 variable "database_subnet_ids" {
   description = "Subnets para o Redis"
-  type        = string
+  type        = list(string)
+}
+
+variable "main_vpc_id" {
+	description = "ID da VPC"
+	type        = string
 }
 
 variable "elastic_cache_vars" {
