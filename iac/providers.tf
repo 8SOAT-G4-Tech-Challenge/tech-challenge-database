@@ -5,24 +5,23 @@ terraform {
       version = "~> 5.0"
     }
   }
-  backend "s3" {
-    bucket  = "tech-challenge-database-bucket-state-tf"
+  /* backend "s3" {
+    bucket  = "tech-challenge-bucket-state-tf"
     region  = "us-east-1"
-    key     = "terraform.tfstate"
+    key     = "database/terraform.tfstate"
     encrypt = true
-  }
+  } */
 }
 
 provider "aws" {
-  profile = "lab-academy" # Profile name in the credentials file
-  region  = "us-east-1"   # Region to deploy the resources
+  region = "us-east-1" # Region to deploy the resources
 }
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket = var.state_bucket
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

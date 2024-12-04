@@ -15,7 +15,6 @@ variable "db_postgres_database" {
 variable "state_bucket" {
   description = "S3 bucket with versioning enabled to store Terraform state"
   type        = string
-  default     = "tech-challenge-database-bucket-state-tf"
 }
 
 variable "project_name" {

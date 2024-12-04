@@ -54,16 +54,6 @@ variable "db_postgres_database" {
 	type        = string
 }
 
-variable "main_vpc_id" {
-	description = "The ID of the VPC"
-	type        = string
-}
-
-variable "database_subnet_ids" {
-  description = "Subnets para o Redis"
-  type        = list(string)
-}
-
 variable "allowed_cidr_blocks" {
   description = "Blocos CIDR permitidos para acessar o Redis"
   type        = list(string)
