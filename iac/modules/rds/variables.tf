@@ -53,3 +53,9 @@ variable "db_postgres_database" {
 	description = "The name of the database"
 	type        = string
 }
+
+variable "allowed_cidr_blocks" {
+  description = "Blocos CIDR permitidos para acessar o Redis"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
