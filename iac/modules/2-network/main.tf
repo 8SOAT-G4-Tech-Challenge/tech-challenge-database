@@ -16,8 +16,8 @@ resource "aws_subnet" "private_subnet_1" {
 
   tags = {
     Name = "${var.project_name}-private-subnet-1"
-		"kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/demo"      = "owned"
+		# "kubernetes.io/role/internal-elb" = "1"
+    # "kubernetes.io/cluster/demo"      = "owned"
 		Iac = true
   }
 }
@@ -29,8 +29,8 @@ resource "aws_subnet" "private_subnet_2" {
 
   tags = {
     Name = "${var.project_name}-private-subnet-2"
-		"kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/demo"      = "owned"
+		# "kubernetes.io/role/internal-elb" = "1"
+    # "kubernetes.io/cluster/demo"      = "owned"
 		Iac = true
   }
 }
@@ -43,8 +43,8 @@ resource "aws_subnet" "public_subnet_1" {
 
 	tags = {
 		Name = "${var.project_name}-public-subnet-1"
-		"kubernetes.io/role/elb" = "1"
-		"kubernetes.io/cluster/demo" = "owned"
+		# "kubernetes.io/role/elb" = "1"
+		# "kubernetes.io/cluster/demo" = "owned"
 		Iac = true
 	}
 }
@@ -57,8 +57,8 @@ resource "aws_subnet" "public_subnet_2" {
 
 	tags = {
 		Name = "${var.project_name}-public-subnet-2"
-		"kubernetes.io/role/elb" = "1"
-		"kubernetes.io/cluster/demo" = "owned"
+		# "kubernetes.io/role/elb" = "1"
+		# "kubernetes.io/cluster/demo" = "owned"
 		Iac = true
 	}
 }
