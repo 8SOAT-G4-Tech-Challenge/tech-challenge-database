@@ -9,7 +9,6 @@ variable "db_postgres_password" {
 variable "db_postgres_database" {
   description = "The name of the database"
   type        = string
-  default     = "tech_challenge-postgres"
 }
 
 variable "state_bucket" {
@@ -18,22 +17,17 @@ variable "state_bucket" {
 }
 
 variable "project_name" {
-  type        = string
   description = "Project name"
-}
-
-variable "environment" {
   type        = string
-  description = "Environment (dev, staging, prod)"
 }
 
-variable "aws_region" {
+variable "region_default" {
   type        = string
   description = "AWS Region"
   default     = "us-east-1"
 }
 
 variable "aws_account_id" {
-  type        = string
   description = "ID da conta AWS Lab Academy"
+  type        = string
 }

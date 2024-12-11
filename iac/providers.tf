@@ -17,7 +17,7 @@ provider "aws" {
   region = "us-east-1" # Region to deploy the resources
 }
 
-resource "aws_s3_bucket" "terraform_state" {
+/* resource "aws_s3_bucket" "terraform_state" {
   bucket = var.state_bucket
 
   lifecycle {
@@ -36,3 +36,4 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
     aws_s3_bucket.terraform_state
   ]
 }
+ */
