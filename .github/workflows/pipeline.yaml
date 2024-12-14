@@ -50,7 +50,7 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply S3
-        working-directory: s3
+        working-directory: ./iac/s3-bucket-state
         id: terraform-apply-s3
         run: terraform apply -auto-approve
 
