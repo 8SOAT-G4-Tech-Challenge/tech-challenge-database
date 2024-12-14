@@ -1,21 +1,6 @@
-resource "aws_security_group" "postgres" {
-  name        = "postgres_public_access"
-  description = "Allow postgres inbound traffic"
-
-  ingress {
-    description = "Postgres from anywhere"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_db_parameter_group" "postgres_params" {
+  family = "postgres16"
+  name   = "postgres16-params"
 }
 
 resource "aws_db_instance" "postgres" {
@@ -32,10 +17,11 @@ resource "aws_db_instance" "postgres" {
   parameter_group_name = aws_db_parameter_group.postgres_params.name
   skip_final_snapshot = var.skip_final_snapshot
   publicly_accessible    = true
-	vpc_security_group_ids = [aws_security_group.postgres.id]
-}
+	db_subnet_group_name = var.db_subnet_group_name
+	vpc_security_group_ids = [var.security_group_id]
 
-resource "aws_db_parameter_group" "postgres_params" {
-  family = "postgres16"
-  name   = "postgres16-params"
+	tags = {
+		Name = "${var.project_name}-postgres"
+		Iac = true
+	}
 }
