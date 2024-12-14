@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "tech-challenge-bucket-state-tf"
+  bucket = "tech-challenge-bucket-state"
 
   lifecycle {
     prevent_destroy = false
