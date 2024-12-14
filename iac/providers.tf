@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "tech-challenge-bucket-state-tf"
+    bucket  = "tech-challenge-bucket-state-tf2"
     region  = "us-east-1"
     key     = "database/terraform.tfstate"
     encrypt = true
