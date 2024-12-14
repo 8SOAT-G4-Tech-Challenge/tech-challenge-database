@@ -39,7 +39,7 @@ jobs:
       - name: Check if S3 bucket exists
         id: s3_check
         run: |
-          if aws s3 ls "s3://your-bucket-name" 2>&1 | grep -q 'NoSuchBucket'
+          if aws s3 ls "s3://${{vars.BUCKET_NAME }}" 2>&1 | grep -q 'NoSuchBucket'
           then
             echo "Bucket does not exist"
             echo "continue=false" >> $GITHUB_ENV
