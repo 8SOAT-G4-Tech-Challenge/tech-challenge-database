@@ -1,9 +1,10 @@
-name: CI - AWS RDS
+name: CI - AWS RDS / Elastic Cache
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -13,19 +14,18 @@ jobs:
   infrastructure:
     name: 'Run Terraform'
     runs-on: ubuntu-latest
-    environment: development
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "[lab-academy]
-          aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -36,31 +36,48 @@ jobs:
         working-directory: ./iac
         continue-on-error: true
 
+      - name: Terraform init S3 Butcket State
+        working-directory: .iac/s3-bucket-state
+        run: terraform init
+
+      - name: Terraform Validate S3
+        working-directory: .iac/s3-bucket-state
+        run: terraform validate
+
+      - name: Terraform Plan S3
+        working-directory: .iac/s3-bucket-state
+        id: terraform-plan-s3
+        run: terraform plan
+
+      - name: Terraform Apply S3
+        working-directory: s3
+        id: terraform-apply-s3
+        run: terraform apply -auto-approve
+
       - name: Terraform Init
         id: tf_init
-        run: export AWS_PROFILE=lab-academy && terraform init
+        run: terraform init
         working-directory: ./iac
 
       - name: Terraform Validate
         id: tf_validate
-        run: export AWS_PROFILE=lab-academy && terraform validate
+        run: terraform validate
         working-directory: ./iac
 
       - name: Terraform Plan
         id: tf_plan
-        run: export AWS_PROFILE=lab-academy && terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+        run: terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
         working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: tf_apply
-        run: export AWS_PROFILE=lab-academy && terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+        run: terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
         working-directory: ./iac
 
   migrations:
     name: 'Run Migrations'
     runs-on: ubuntu-latest
-    environment: development
     needs: infrastructure
 
     steps:
@@ -74,11 +91,11 @@ jobs:
           aws_access_key_id=${{ vars.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ vars.AWS_SECRET_ACCESS_KEY }}
           aws_session_token=${{ vars.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
-      
+
       - name: Get RDS Endpoint from SSM
         id: get-endpoint
         run: |
-          echo "AWS_RDS_URI=$(export AWS_PROFILE=lab-academy && aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
+          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -87,5 +104,5 @@ jobs:
 
       - name: Run migrations
         env:
-          DATABASE_URL: "${{ env.AWS_RDS_URI }}"
+          DATABASE_URL: '${{ env.AWS_RDS_URI }}'
         run: npx prisma migrate deploy
