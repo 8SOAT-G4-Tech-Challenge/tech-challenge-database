@@ -36,20 +36,36 @@ jobs:
         working-directory: ./iac
         continue-on-error: true
 
+      - name: Check if S3 bucket exists
+        id: s3_check
+        run: |
+          if aws s3 ls "s3://your-bucket-name" 2>&1 | grep -q 'NoSuchBucket'
+          then
+            echo "Bucket does not exist"
+            echo "continue=false" >> $GITHUB_ENV
+          else
+            echo "Bucket exists"
+            echo "continue=true" >> $GITHUB_ENV
+          fi
+
       - name: Terraform init S3 Butcket State
+        if: env.continue == 'false'
         working-directory: ./iac/s3-bucket-state
         run: terraform init
 
       - name: Terraform Validate S3
+        if: env.continue == 'false'
         working-directory: ./iac/s3-bucket-state
         run: terraform validate
 
       - name: Terraform Plan S3
+        if: env.continue == 'false'
         working-directory: ./iac/s3-bucket-state
         id: terraform-plan-s3
         run: terraform plan
 
       - name: Terraform Apply S3
+        if: env.continue == 'false'
         working-directory: ./iac/s3-bucket-state
         id: terraform-apply-s3
         run: terraform apply -auto-approve
