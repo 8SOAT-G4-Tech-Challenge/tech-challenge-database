@@ -37,15 +37,15 @@ jobs:
         continue-on-error: true
 
       - name: Terraform init S3 Butcket State
-        working-directory: .iac/s3-bucket-state
+        working-directory: ./iac/s3-bucket-state
         run: terraform init
 
       - name: Terraform Validate S3
-        working-directory: .iac/s3-bucket-state
+        working-directory: ./iac/s3-bucket-state
         run: terraform validate
 
       - name: Terraform Plan S3
-        working-directory: .iac/s3-bucket-state
+        working-directory: ./iac/s3-bucket-state
         id: terraform-plan-s3
         run: terraform plan
 
