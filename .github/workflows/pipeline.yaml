@@ -82,13 +82,13 @@ jobs:
 
       - name: Terraform Plan
         id: tf_plan
-        run: terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
+        run: terraform plan -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
         working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: tf_apply
-        run: terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
+        run: terraform apply -auto-approve -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
         working-directory: ./iac
 
   migrations:
