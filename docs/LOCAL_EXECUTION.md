@@ -5,6 +5,7 @@
 - Instalação e configuração do [CLI Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 - Instalação e configuração do [CLI AWS](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/getting-started-install.html)
 - Acesso ao [AWS Academy](https://awsacademy.instructure.com/)
+- Instalação e configuração [npm](https://docs.npmjs.com/)
 
 ### Passo a passo
 
@@ -56,3 +57,9 @@ terraform plan
 ```sh
   terraform apply
 ```
+
+### Criação das tabelas no banco de dados
+
+- Após criação dos recursos via `Terraform`, entrar no console da AWS, acessar o serviço Secrets Manager e recuperar a "secret key" com o valor de endereço do banco de dados.
+- Na pasta raiz do projeto, criar um arquivo chamada `.env`com o seguinte valor "DATABASE_URL=" e colar o valor recuperado no SSM.
+- Executar o comando `npx prisma migrate deploy` para rodar as migrations e criação das tabelas dentro do RDS Postgres.
