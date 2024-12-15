@@ -36,21 +36,37 @@ jobs:
         working-directory: ./iac
         continue-on-error: true
 
+      - name: Check if S3 bucket exists
+        id: s3_check
+        run: |
+          if aws s3 ls "s3://${{vars.BUCKET_NAME }}" 2>&1 | grep -q 'NoSuchBucket'
+          then
+            echo "Bucket does not exist"
+            echo "continue=false" >> $GITHUB_ENV
+          else
+            echo "Bucket exists"
+            echo "continue=true" >> $GITHUB_ENV
+          fi
+
       - name: Terraform init S3 Butcket State
-        working-directory: .iac/s3-bucket-state
+        if: env.continue == 'false'
+        working-directory: ./iac/s3-bucket-state
         run: terraform init
 
       - name: Terraform Validate S3
-        working-directory: .iac/s3-bucket-state
+        if: env.continue == 'false'
+        working-directory: ./iac/s3-bucket-state
         run: terraform validate
 
       - name: Terraform Plan S3
-        working-directory: .iac/s3-bucket-state
+        if: env.continue == 'false'
+        working-directory: ./iac/s3-bucket-state
         id: terraform-plan-s3
         run: terraform plan
 
       - name: Terraform Apply S3
-        working-directory: s3
+        if: env.continue == 'false'
+        working-directory: ./iac/s3-bucket-state
         id: terraform-apply-s3
         run: terraform apply -auto-approve
 
@@ -66,13 +82,13 @@ jobs:
 
       - name: Terraform Plan
         id: tf_plan
-        run: terraform plan -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+        run: terraform plan -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
         working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: tf_apply
-        run: terraform apply -auto-approve -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_NAME }}"
+        run: terraform apply -auto-approve -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
         working-directory: ./iac
 
   migrations:
