@@ -6,7 +6,7 @@
 
 Este repositório contém todo o mapeamento utilizando a ferramenta terraform para a criação de todos os recursos de banco de dados, VPC e network e security group na cloud AWS para a execução da aplicação de sistema de controle de pedidos para uma lanchonete em expansão
 
-### Principais funcionalidades:
+### Principais funcionalidades
 
 - Criação e configuração do recurso VPC da AWS: Permite que o terraform realize a criação e configuração do recurso VPC para manter os recursos criados dentro de uma rede privada;
 - Criação e configuração do recurso Subnets da AWS: Permite que o terraform realize a criação e configuração do recurso de subnets privadas e públicas para manter os recursos em determinada Network com habilitação do Internet Gateway para comunicação com a internet.
