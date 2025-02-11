@@ -1,5 +1,6 @@
 variable "project_name" {
   description = "Project name"
+  default     = "tech-challenge-order"
   type        = string
 }
 variable "allocated_storage" {
@@ -46,7 +47,7 @@ variable "port" {
 }
 variable "identifier" {
   description = "The name of the RDS instance"
-  default = "tech-challenge-database"
+  default = "tech-challenge-order-database"
   type = string
 }
 variable "skip_final_snapshot" {

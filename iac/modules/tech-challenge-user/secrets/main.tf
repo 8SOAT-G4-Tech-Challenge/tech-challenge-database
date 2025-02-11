@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "database_url" {
-  name = "aws_rds_endpoint"
+  name = "tech_challenge_user_aws_rds_endpoint"
 	recovery_window_in_days = 0
 }
 
