@@ -26,6 +26,7 @@ variable "tech_challenge_user_db_postgres_database" {
 
 variable "default_project_name" {
   description = "Project name"
+  default     = "tech-challenge"
   type        = string
 }
 
@@ -45,31 +46,43 @@ variable "tech_challenge_payment_atlas_project_name" {
   description = "Atlas Project Name"
 }
 
-variable "tech_challenge_payment_atlas_environment" {
-  type        = string
-  description = "The environment to be built"
-}
-
 variable "tech_challenge_payment_atlas_cluster_instance_size_name" {
   type        = string
+  default     = "M0"
   description = "Cluster instance size name"
 }
 
 variable "tech_challenge_payment_atlas_cloud_provider" {
   type        = string
+  default     = "AWS"
   description = "AWS or GCP or Azure"
 }
 
 variable "tech_challenge_payment_atlas_ip_address" {
-  type = string
+  type        = string
   description = "IP address used to access Atlas cluster"
 }
 
 variable "tech_challenge_payment_db_postgres_username" {
-	description = "The username of the database"
-	type        = string
+  description = "The username of the database"
+  type        = string
 }
 variable "tech_challenge_payment_db_postgres_password" {
-	description = "The password of the database"
-	type        = string
+  description = "The password of the database"
+  type        = string
+}
+variable "tech_challenge_order_project_name" {
+  description = "The tech-challenge-order project name"
+  default     = "tech-challenge-order"
+  type        = string
+}
+variable "tech_challenge_user_project_name" {
+  description = "The tech-challenge-user project name"
+  default     = "tech-challenge-user"
+  type        = string
+}
+variable "tech_challenge_payment_project_name" {
+  description = "The tech-challenge-payment project name"
+  default     = "tech-challenge-payment"
+  type        = string
 }

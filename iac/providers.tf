@@ -21,6 +21,6 @@ provider "aws" {
 }
 
 provider "mongodbatlas" {
-  public_key = "ewgcrwya"
-  private_key  = "79641880-003d-4deb-a901-3719157dfe49"
+  public_key  = "ewgcrwya"
+  private_key = "79641880-003d-4deb-a901-3719157dfe49"
 }

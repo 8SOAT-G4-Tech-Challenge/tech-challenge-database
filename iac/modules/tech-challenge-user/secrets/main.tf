@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "database_url" {
-  name = "tech_challenge_user_aws_rds_endpoint"
-	recovery_window_in_days = 0
+  name                    = "${var.project_name}-aws-rds-endpoint"
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "database_url" {
@@ -9,13 +9,13 @@ resource "aws_secretsmanager_secret_version" "database_url" {
 }
 
 resource "aws_secretsmanager_secret" "redis_url" {
-	name = "aws_elastic_cache_endpoint"
-	recovery_window_in_days = 0
+  name                    = "aws_elastic_cache_endpoint"
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "redis_url" {
-	secret_id     = aws_secretsmanager_secret.redis_url.id
-	secret_string = coalesce("redis://${var.aws_elastic_cache_endpoint}", "")
+  secret_id     = aws_secretsmanager_secret.redis_url.id
+  secret_string = coalesce("redis://${var.aws_elastic_cache_endpoint}", "")
 
-	depends_on = [aws_secretsmanager_secret.redis_url]
+  depends_on = [aws_secretsmanager_secret.redis_url]
 }

@@ -3,7 +3,7 @@ variable "project_name" {
   type        = string
 }
 variable "vpc_id" {
-	description = "VPC ID"
+  description = "VPC ID"
 }
 variable "allowed_cidr_blocks" {
   description = "Blocos CIDR permitidos para acessar o Redis"
@@ -11,7 +11,7 @@ variable "allowed_cidr_blocks" {
   default     = ["0.0.0.0/0"]
 }
 variable "vpc_cidr" {
-	description = "CIDR da VPC"
-	type        = list(string)
-	default			= ["192.168.0.0/16"]
+  description = "CIDR da VPC"
+  type        = list(string)
+  default     = ["192.168.0.0/16"]
 }

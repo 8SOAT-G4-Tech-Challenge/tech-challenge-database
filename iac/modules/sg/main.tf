@@ -4,30 +4,30 @@ resource "aws_security_group" "main" {
   vpc_id      = var.vpc_id
 
   ingress {
-		description = "HTTP"
+    description = "HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = var.allowed_cidr_blocks
   }
 
-	ingress {
-		description = "HTTPS"
+  ingress {
+    description = "HTTPS"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = var.allowed_cidr_blocks
   }
 
-	ingress {
-		description = "Redis from EKS"
+  ingress {
+    description = "Redis from EKS"
     from_port   = 6379
     to_port     = 6379
     protocol    = "tcp"
     cidr_blocks = var.allowed_cidr_blocks
   }
 
-	ingress {
+  ingress {
     description = "Postgres from EKS"
     from_port   = 5432
     to_port     = 5432
@@ -50,8 +50,8 @@ resource "aws_security_group" "main" {
     cidr_blocks = var.allowed_cidr_blocks
   }
 
-	tags = {
-		Name = "${var.project_name}-sg"
-		Iac = true
-	}
+  tags = {
+    Name = "${var.project_name}-sg"
+    Iac  = true
+  }
 }

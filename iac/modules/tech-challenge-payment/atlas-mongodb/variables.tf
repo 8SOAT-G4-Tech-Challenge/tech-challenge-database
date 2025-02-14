@@ -8,11 +8,6 @@ variable "atlas_project_name" {
   description = "Atlas Project Name"
 }
 
-variable "environment" {
-  type        = string
-  description = "The environment to be built"
-}
-
 variable "cluster_instance_size_name" {
   type        = string
   description = "Cluster instance size name"
@@ -35,15 +30,15 @@ variable "mongodb_version" {
 }
 
 variable "ip_address" {
-  type = string
+  type        = string
   description = "IP address used to access Atlas cluster"
 }
 
 variable "db_postgres_username" {
-	description = "The username of the database"
-	type        = string
+  description = "The username of the database"
+  type        = string
 }
 variable "db_postgres_password" {
-	description = "The password of the database"
-	type        = string
+  description = "The password of the database"
+  type        = string
 }

@@ -1,16 +1,20 @@
+variable "project_name" {
+  description = "Project name"
+  type        = string
+}
 variable "aws_rds_endpoint" {
   description = "The endpoint of the RDS instance"
   type        = string
 }
 variable "db_postgres_username" {
-	description = "The username of the database"
-	type        = string
+  description = "The username of the database"
+  type        = string
 }
 variable "db_postgres_password" {
-	description = "The password of the database"
-	type        = string
+  description = "The password of the database"
+  type        = string
 }
 variable "db_postgres_database" {
-	description = "The name of the database"
-	type        = string
+  description = "The name of the database"
+  type        = string
 }
