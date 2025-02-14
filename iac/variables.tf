@@ -1,25 +1,25 @@
-variable "tech_challenge_order_db_postgres_username" {
+variable "tc_order_db_postgres_username" {
   description = "The username of the database"
   type        = string
 }
-variable "tech_challenge_order_db_postgres_password" {
+variable "tc_order_db_postgres_password" {
   description = "The password of the database"
   type        = string
 }
-variable "tech_challenge_order_db_postgres_database" {
+variable "tc_order_db_postgres_database" {
   description = "The name of the database"
   type        = string
 }
 
-variable "tech_challenge_user_db_postgres_username" {
+variable "tc_user_db_postgres_username" {
   description = "The username of the database"
   type        = string
 }
-variable "tech_challenge_user_db_postgres_password" {
+variable "tc_user_db_postgres_password" {
   description = "The password of the database"
   type        = string
 }
-variable "tech_challenge_user_db_postgres_database" {
+variable "tc_user_db_postgres_database" {
   description = "The name of the database"
   type        = string
 }
@@ -36,52 +36,52 @@ variable "region_default" {
   default     = "us-east-1"
 }
 
-variable "tech_challenge_payment_atlas_org_id" {
+variable "tc_payment_atlas_org_id" {
   type        = string
   description = "Atlas Organization ID"
 }
 
-variable "tech_challenge_payment_atlas_project_name" {
+variable "tc_payment_atlas_project_name" {
   type        = string
   description = "Atlas Project Name"
 }
 
-variable "tech_challenge_payment_atlas_cluster_instance_size_name" {
+variable "tc_payment_atlas_cluster_instance_size_name" {
   type        = string
   default     = "M0"
   description = "Cluster instance size name"
 }
 
-variable "tech_challenge_payment_atlas_cloud_provider" {
+variable "tc_payment_atlas_cloud_provider" {
   type        = string
   default     = "AWS"
   description = "AWS or GCP or Azure"
 }
 
-variable "tech_challenge_payment_atlas_ip_address" {
+variable "tc_payment_atlas_ip_address" {
   type        = string
   description = "IP address used to access Atlas cluster"
 }
 
-variable "tech_challenge_payment_db_postgres_username" {
+variable "tc_payment_db_postgres_username" {
   description = "The username of the database"
   type        = string
 }
-variable "tech_challenge_payment_db_postgres_password" {
+variable "tc_payment_db_postgres_password" {
   description = "The password of the database"
   type        = string
 }
-variable "tech_challenge_order_project_name" {
+variable "tc_order_project_name" {
   description = "The tech-challenge-order project name"
   default     = "tech-challenge-order"
   type        = string
 }
-variable "tech_challenge_user_project_name" {
+variable "tc_user_project_name" {
   description = "The tech-challenge-user project name"
   default     = "tech-challenge-user"
   type        = string
 }
-variable "tech_challenge_payment_project_name" {
+variable "tc_payment_project_name" {
   description = "The tech-challenge-payment project name"
   default     = "tech-challenge-payment"
   type        = string
