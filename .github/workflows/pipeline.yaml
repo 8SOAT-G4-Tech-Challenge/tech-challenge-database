@@ -115,19 +115,29 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Get RDS Endpoint from SSM
-        id: get-endpoint
+      - name: Get tech-challenge-order RDS Endpoint from SSM
         run: |
-          echo "AWS_RDS_URI=$(aws secretsmanager get-secret-value --secret-id aws_rds_endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
+          echo "AWS_ORDER_RDS_URI=$(aws secretsmanager get-secret-value --secret-id tech-challenge-order-aws-rds-endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
+
+      - name: Get tech-challenge-user RDS Endpoint from SSM
+        run: |
+          echo "AWS_USER_RDS_URI=$(aws secretsmanager get-secret-value --secret-id tech-challenge-user-aws-rds-endpoint --query 'SecretString' --output text --region us-east-1)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Run migrations
+      - name: Run migrations tech-challenge-order
         env:
-          DATABASE_URL: '${{ env.AWS_RDS_URI }}'
+          DATABASE_URL: '${{ env.AWS_ORDER_RDS_URI }}'
+        working-directory: ./iac/modules/tech-challenge-order
+        run: npx prisma migrate deploy
+      
+      - name: Run migrations tech-challenge-user
+        env:
+          DATABASE_URL: '${{ env.AWS_USER_RDS_URI }}'
+        working-directory: ./iac/modules/tech-challenge-user
         run: npx prisma migrate deploy
 
   terraform_destroy:
