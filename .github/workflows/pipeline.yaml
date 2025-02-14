@@ -88,13 +88,13 @@ jobs:
 
       - name: Terraform Plan
         id: tf_plan
-        run: terraform plan -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
+        run: terraform plan -var="tc_order_db_postgres_database=${{ secrets.TC_ORDER_DB_POSTGRES_DATABASE }}" -var="tc_order_db_postgres_username=${{ secrets.TC_ORDER_DB_POSTGRES_USERNAME }}" -var="tc_order_db_postgres_password=${{ secrets.TC_ORDER_DB_POSTGRES_PASSWORD }}" -var="tc_user_db_postgres_database=${{ secrets.TC_USER_DB_POSTGRES_DATABASE }}" -var="tc_user_db_postgres_username=${{ secrets.TC_USER_DB_POSTGRES_USERNAME }}"   -var="tc_user_db_postgres_password=${{ secrets.TC_USER_DB_POSTGRES_PASSWORD }}" -var="tc_payment_atlas_org_id=${{ secrets.TC_PAYMENT_ATLAS_ORG_ID }}" -var="tc_payment_atlas_project_name=${{ secrets.TC_PAYMENT_ATLAS_PROJECT_NAME }}" -var="tc_payment_atlas_ip_address=${{ secrets.TC_PAYMENT_ATLAS_IP_ADDRESS }}" -var="tc_payment_db_postgres_username=${{ secrets.TC_PAYMENT_DB_POSTGRES_USERNAME }}" -var="tc_payment_db_postgres_password=${{ secrets.TC_PAYMENT_DB_POSTGRES_PASSWORD }}"
         working-directory: ./iac
         continue-on-error: true
 
       - name: Terraform Apply
         id: tf_apply
-        run: terraform apply -auto-approve -var="project_name=${{ vars.PROJECT_NAME }}" -var="db_postgres_username=${{ vars.DB_USER }}" -var="db_postgres_password=${{ secrets.DB_PASSWORD }}" -var="db_postgres_database=${{ vars.DB_DATABASE }}"
+        run: terraform apply -auto-approve -var="tc_order_db_postgres_database=${{ secrets.TC_ORDER_DB_POSTGRES_DATABASE }}" -var="tc_order_db_postgres_username=${{ secrets.TC_ORDER_DB_POSTGRES_USERNAME }}" -var="tc_order_db_postgres_password=${{ secrets.TC_ORDER_DB_POSTGRES_PASSWORD }}" -var="tc_user_db_postgres_database=${{ secrets.TC_USER_DB_POSTGRES_DATABASE }}" -var="tc_user_db_postgres_username=${{ secrets.TC_USER_DB_POSTGRES_USERNAME }}"   -var="tc_user_db_postgres_password=${{ secrets.TC_USER_DB_POSTGRES_PASSWORD }}" -var="tc_payment_atlas_org_id=${{ secrets.TC_PAYMENT_ATLAS_ORG_ID }}" -var="tc_payment_atlas_project_name=${{ secrets.TC_PAYMENT_ATLAS_PROJECT_NAME }}" -var="tc_payment_atlas_ip_address=${{ secrets.TC_PAYMENT_ATLAS_IP_ADDRESS }}" -var="tc_payment_db_postgres_username=${{ secrets.TC_PAYMENT_DB_POSTGRES_USERNAME }}" -var="tc_payment_db_postgres_password=${{ secrets.TC_PAYMENT_DB_POSTGRES_PASSWORD }}"
         working-directory: ./iac
 
   migrations:
