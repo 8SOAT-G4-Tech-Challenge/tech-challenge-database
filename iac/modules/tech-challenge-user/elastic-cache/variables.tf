@@ -7,10 +7,10 @@ variable "redis_node_type" {
   default     = "cache.t3.micro"
 }
 variable "subnet_group_name" {
-	description = "Cache subnet group name"
-	type = string
+  description = "Cache subnet group name"
+  type        = string
 }
 variable "security_group_id" {
-	description = "Security group ID"
-	type = string
+  description = "Security group ID"
+  type        = string
 }

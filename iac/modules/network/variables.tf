@@ -8,5 +8,5 @@ variable "region_default" {
   default     = "us-east-1"
 }
 variable "vpc_id" {
-	description = "VPC ID"
+  description = "VPC ID"
 }
