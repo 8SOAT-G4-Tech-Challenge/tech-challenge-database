@@ -63,11 +63,11 @@ variable "tc_payment_atlas_ip_address" {
   description = "IP address used to access Atlas cluster"
 }
 
-variable "tc_payment_db_postgres_username" {
+variable "tc_payment_db_mongo_username" {
   description = "The username of the database"
   type        = string
 }
-variable "tc_payment_db_postgres_password" {
+variable "tc_payment_db_mongo_password" {
   description = "The password of the database"
   type        = string
 }

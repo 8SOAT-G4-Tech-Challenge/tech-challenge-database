@@ -47,8 +47,8 @@ module "tech-challenge-order-secrets" {
   db_postgres_username = var.tc_order_db_postgres_username
   db_postgres_password = var.tc_order_db_postgres_password
   db_postgres_database = var.tc_order_db_postgres_database
-  aws_rds_endpoint = module.tech-challenge-order-rds.rds_endpoint
-  project_name = var.tc_order_project_name
+  aws_rds_endpoint     = module.tech-challenge-order-rds.rds_endpoint
+  project_name         = var.tc_order_project_name
 
   depends_on = [module.tech-challenge-order-rds]
 }
@@ -90,7 +90,7 @@ module "tech-challenge-user-secrets" {
 
   aws_rds_endpoint           = module.tech-challenge-user-rds.rds_endpoint
   aws_elastic_cache_endpoint = module.tech-challenge-user-elastic-cache.redis_endpoint
-  project_name = var.tc_user_project_name
+  project_name               = var.tc_user_project_name
 
   depends_on = [module.tech-challenge-user-rds, module.tech-challenge-user-elastic-cache]
 }
@@ -104,8 +104,7 @@ module "tech-challenge-payment-atlas-mongodb" {
   atlas_region               = var.region_default
   cloud_provider             = var.tc_payment_atlas_cloud_provider
   atlas_project_name         = var.tc_payment_atlas_project_name
-  db_postgres_username       = var.tc_payment_db_postgres_username
-  db_postgres_password       = var.tc_payment_db_postgres_password
+  db_mongo_username          = var.tc_payment_db_mongo_username
 }
 
 module "tech-challenge-payment-secrets" {

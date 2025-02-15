@@ -4,7 +4,7 @@ resource "mongodbatlas_project" "atlas-project" {
 }
 
 resource "mongodbatlas_database_user" "db-user" {
-  username           = var.db_postgres_username
+  username           = var.db_mongo_username
   password           = random_password.db-user-password.result
   project_id         = mongodbatlas_project.atlas-project.id
   auth_database_name = "admin"

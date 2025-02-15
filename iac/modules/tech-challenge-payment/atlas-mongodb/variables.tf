@@ -34,11 +34,7 @@ variable "ip_address" {
   description = "IP address used to access Atlas cluster"
 }
 
-variable "db_postgres_username" {
+variable "db_mongo_username" {
   description = "The username of the database"
-  type        = string
-}
-variable "db_postgres_password" {
-  description = "The password of the database"
   type        = string
 }
