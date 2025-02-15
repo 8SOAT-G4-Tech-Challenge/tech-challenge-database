@@ -133,7 +133,7 @@ jobs:
           DATABASE_URL: '${{ env.AWS_ORDER_RDS_URI }}'
         working-directory: ./iac/modules/tech-challenge-order
         run: npx prisma migrate deploy
-      
+
       - name: Run migrations tech-challenge-user
         env:
           DATABASE_URL: '${{ env.AWS_USER_RDS_URI }}'
