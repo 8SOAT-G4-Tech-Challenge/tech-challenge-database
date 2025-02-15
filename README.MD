@@ -1,6 +1,6 @@
 # FIAP Tech Challenge 8SOAT - Grupo 04 - Fase 3 - Terraform infraestrutura de banco de dados
 
-## AWS RDS / Elastic Cache with Terraform
+## AWS RDS / Elastic Cache / MongoDB Atlas com Terraform
 
 ### Objetivo do Projeto
 
@@ -11,6 +11,7 @@ Este repositório contém todo o mapeamento utilizando a ferramenta terraform pa
 - Criação e configuração do recurso Subnets da AWS: Permite que o terraform realize a criação e configuração do recurso de subnets privadas e públicas para manter os recursos em determinada Network com habilitação do Internet Gateway para comunicação com a internet.
 - Criação e configuração do recurso S3 da AWS: Permite que o terraform realize a criação e configuração do recurso S3 para armazenar o arquivo de estado do terraform;
 - Criação e configuração do recurso RDS Postgres da AWS: Permite que o terraform realize a criação e configuração do recurso RDS Postgres para armazenamento dos dados gerados pela aplicação.
+- Criação e configuração do recurso MongoDB Atlas: Permite que o terraform realize a criação e configuração de um cluster MongoDB Atlas, garantindo um ambiente escalável e flexível para armazenar informações de pagamentos. Isso permite um gerenciamento eficiente de transações e histórico de pagamentos.
 - Criação e configuração do recurso Elastic Cache Redis da AWS: Permite que o terraform realize a criação e configuração do recurso Elastic Cache para armazenamento de dados em memória para otimizar a performance das consultas de dados do Cliente ao utilizar a aplicação.
 - Criação e configuração do recurso Secret Manager Service da AWS: Permite que o terraform realize a criação e configuração do recurso para armazenamento dos valores para acesso aos bancos de dados criados nos passos anteriores.
 
